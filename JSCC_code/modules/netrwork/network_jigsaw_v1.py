@@ -10,26 +10,25 @@ class Network(nn.Module):
         self.feature_dim = feature_dim
         self.cluster_num = class_num
         self.instance_projector = nn.Sequential(
-            nn.Linear(2048, 512),
+            nn.Linear(self.feature_dim, 512),
             nn.ReLU(),
             nn.Linear(512, self.feature_dim),
         )
         self.cluster_projector = nn.Sequential(
-            nn.Linear(2048, 512),
+            nn.Linear(self.feature_dim, 512),
             nn.ReLU(),
             nn.Linear(512, self.cluster_num),
             nn.Softmax(dim=1)
         )
         self.jigsaw_projector = nn.Sequential(
-            nn.Linear(2048, 256),
+            nn.Linear(self.feature_dim, 256),
             nn.ReLU(),
             nn.Linear(256, 128),
             nn.ReLU(),
             nn.Linear(128, 64),
             nn.ReLU(),
-            # nn.Linear(64, 24),
-            nn.Linear(64, 6),  # 1.25 add this code
-            nn.Softmax(dim=1)   #1.24 add this code
+            nn.Linear(64, 6),
+            nn.Softmax(dim=1)
         )
 
     def forward(self, x_i, x_j, x_jigsaw):
