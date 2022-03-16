@@ -10,18 +10,18 @@ class Network(nn.Module):
         self.feature_dim = feature_dim
         self.cluster_num = class_num
         self.instance_projector = nn.Sequential(
-            nn.Linear(self.feature_dim, 512),
+            nn.Linear(self.resnet.rip_dim, self.resnet.rip_dim),
             nn.ReLU(),
-            nn.Linear(512, self.feature_dim),
+            nn.Linear(self.resnet.rip_dim, self.feature_dim),
         )
         self.cluster_projector = nn.Sequential(
-            nn.Linear(self.feature_dim, 512),
+            nn.Linear(self.resnet.rip_dim, self.resnet.rip_dim),
             nn.ReLU(),
-            nn.Linear(512, self.cluster_num),
+            nn.Linear(self.resnet.rip_dim, self.cluster_num),
             nn.Softmax(dim=1)
         )
         self.jigsaw_projector = nn.Sequential(
-            nn.Linear(self.feature_dim, 256),
+            nn.Linear(self.resnet.rip_dim, 256),
             nn.ReLU(),
             nn.Linear(256, 128),
             nn.ReLU(),
