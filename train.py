@@ -54,7 +54,7 @@ if __name__ == "__main__":
         os.makedirs(args.model_path)
 
     gpu_num = args.gpu_num
-    # os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_num)
+    os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_num)
     print(f"use gpu:{gpu_num} for training")
 
     torch.manual_seed(args.seed)
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     # initialize model
     res = resnet.get_resnet(args.resnet)
     model = network.Network(res, args.feature_dim, class_num)
-    model = torch.nn.DataParallel(model)
+    # model = torch.nn.DataParallel(model)
     model = model.to('cuda')
     if args.forzen_backbone:
         model = forzen_backbone(model)
